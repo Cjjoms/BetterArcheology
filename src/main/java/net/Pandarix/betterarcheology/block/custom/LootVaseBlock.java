@@ -6,13 +6,13 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.mob.SilverfishEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.tag.EnchantmentTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -25,7 +25,7 @@ public class LootVaseBlock extends Block
 {
     private static final VoxelShape SHAPE = Block.createCuboidShape(3, 0, 3, 13, 14, 13);
     //advancement id for granting the advancement in onBreak, condition of advancement is "impossible" and needs to be executed here
-    Identifier ADVANCEMENT_ID = new Identifier(BetterArcheology.MOD_ID, "loot_vase_broken");
+    Identifier ADVANCEMENT_ID = Identifier.of(BetterArcheology.MOD_ID, "loot_vase_broken");
 
     public LootVaseBlock(Settings settings)
     {
@@ -38,7 +38,7 @@ public class LootVaseBlock extends Block
         if (!world.isClient())
         {
             //if the players is not in creative and doesn't silk-touch the vase
-            if (!player.isCreative() && EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, player.getMainHandStack()) <= 0)
+            if (!player.isCreative() && EnchantmentHelper.hasAnyEnchantmentsIn(player.getMainHandStack(), EnchantmentTags.PREVENTS_DECORATED_POT_SHATTERING))
             {
                 //spawn xpOrbs
                 Entity xpOrb = new ExperienceOrbEntity(world, pos.getX(), pos.getY(), pos.getZ(), 4);
@@ -54,7 +54,7 @@ public class LootVaseBlock extends Block
     public void onStacksDropped(BlockState state, ServerWorld world, BlockPos pos, ItemStack tool, boolean dropExperience)
     {
         super.onStacksDropped(state, world, pos, tool, dropExperience);
-        if (world.getGameRules().getBoolean(GameRules.DO_TILE_DROPS) && EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, tool) == 0)
+        if (world.getGameRules().getBoolean(GameRules.DO_TILE_DROPS) && EnchantmentHelper.hasAnyEnchantmentsIn(tool, EnchantmentTags.PREVENTS_DECORATED_POT_SHATTERING))
         {
             //4% chance of spawning a silverfish when breaking a loot vase
             if (world.getRandom().nextInt(25) == 1)

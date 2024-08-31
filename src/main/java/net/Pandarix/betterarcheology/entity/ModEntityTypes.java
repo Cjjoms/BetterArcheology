@@ -13,7 +13,7 @@ public class ModEntityTypes
 {
     public static final EntityType<BombEntity> BOMB_ENTITY = Registry.register(
             Registries.ENTITY_TYPE,
-            new Identifier(BetterArcheology.MOD_ID, "bombentity"),
+            Identifier.of(BetterArcheology.MOD_ID, "bombentity"),
             FabricEntityTypeBuilder.<BombEntity>create(SpawnGroup.MISC, BombEntity::new).dimensions(EntityDimensions.fixed(0.75f, 0.75f)).build()
     );
 

@@ -15,7 +15,7 @@ public class IdentifyingScreen extends HandledScreen<IdentifyingScreenHandler>
 
     //saves archeology_table_gui as TEXTURE
     private static final Identifier TEXTURE =
-            new Identifier(BetterArcheology.MOD_ID, "textures/gui/archeology_table_gui.png");
+            Identifier.of(BetterArcheology.MOD_ID, "textures/gui/archeology_table_gui.png");
 
     public IdentifyingScreen(IdentifyingScreenHandler handler, PlayerInventory inventory, Text title)
     {

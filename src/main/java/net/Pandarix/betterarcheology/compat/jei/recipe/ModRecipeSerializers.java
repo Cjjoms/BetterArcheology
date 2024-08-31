@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
 public class ModRecipeSerializers
 {
     private static final RecipeSerializer<IdentifyingRecipe> IDENTIFYING_SERIALIZER =
-            Registry.register(Registries.RECIPE_SERIALIZER, new Identifier(BetterArcheology.MOD_ID, "identifying"),
+            Registry.register(Registries.RECIPE_SERIALIZER, Identifier.of(BetterArcheology.MOD_ID, "identifying"),
                     IdentifyingRecipe.Serializer.INSTANCE);
 
     public static void registerSerializers()

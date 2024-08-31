@@ -25,7 +25,7 @@ public class JeiPlugin implements IModPlugin
     @NotNull
     public Identifier getPluginUid()
     {
-        return new Identifier(BetterArcheology.MOD_ID, "jei_plugin");
+        return Identifier.of(BetterArcheology.MOD_ID, "jei_plugin");
     }
 
     @Override

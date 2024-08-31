@@ -18,14 +18,20 @@ import net.minecraft.item.BrushItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootTable;
+import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
+import net.minecraft.loot.entry.LootTableEntry;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.resource.Resource;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -44,6 +50,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static net.Pandarix.betterarcheology.block.custom.ArchelogyTable.DUSTING;
 
@@ -66,7 +73,7 @@ public class ArcheologyTableBlockEntity extends BlockEntity implements NamedScre
     private int maxProgress = 72;
 
     //loottable for crafting results
-    private static final Identifier CRAFTING_LOOT = new Identifier(BetterArcheology.MOD_ID, "identifying_loot");
+    protected static final RegistryKey<LootTable> CRAFTING_LOOT = RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier.of(BetterArcheology.MOD_ID, "identifying_loot"));
 
     public ArcheologyTableBlockEntity(BlockPos pos, BlockState state)
     {
@@ -121,10 +128,10 @@ public class ArcheologyTableBlockEntity extends BlockEntity implements NamedScre
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt)
+    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
     {
-        super.writeNbt(nbt);
-        Inventories.writeNbt(nbt, inventory);
+        super.writeNbt(nbt, registryLookup);
+        Inventories.writeNbt(nbt, inventory, registryLookup);
         nbt.putInt("archeology_table.progress", progress);          //saves the block inventory upon closing the world
     }
 
@@ -134,10 +141,10 @@ public class ArcheologyTableBlockEntity extends BlockEntity implements NamedScre
     }
 
     @Override
-    public void readNbt(NbtCompound nbt)
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
     {                          //reads saved inventory upon opening the world
-        Inventories.readNbt(nbt, inventory);
-        super.readNbt(nbt);
+        Inventories.readNbt(nbt, inventory, registryLookup);
+        super.readNbt(nbt, registryLookup);
         progress = nbt.getInt("archeology_table");
     }
 
@@ -226,7 +233,7 @@ public class ArcheologyTableBlockEntity extends BlockEntity implements NamedScre
         if (world != null && !world.isClient() && world.getServer() != null)
         {
             //gets loot-table based on .json loot
-            LootTable lootTable = world.getServer().getLootManager().getLootTable(CRAFTING_LOOT);
+            LootTable lootTable = world.getServer().getReloadableRegistries().getLootTable(CRAFTING_LOOT);
             //parameters for determining loot such as luck, origin and position
             LootContextParameterSet lootContextParameterSet = (new LootContextParameterSet.Builder((ServerWorld) world)).add(LootContextParameters.ORIGIN, Vec3d.ofCenter(entity.getPos())).luck(0).build(LootContextTypes.CHEST);
 
@@ -234,7 +241,7 @@ public class ArcheologyTableBlockEntity extends BlockEntity implements NamedScre
             ObjectArrayList<ItemStack> objectArrayList = lootTable.generateLoot(lootContextParameterSet, world.random.nextLong());
 
             //return first LootTable entry as crafting output
-            if (objectArrayList.size() == 0)
+            if (objectArrayList.isEmpty())
             {
                 return ItemStack.EMPTY;
             }

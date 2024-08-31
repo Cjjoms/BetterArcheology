@@ -1,25 +1,26 @@
 package net.Pandarix.betterarcheology.compat.jei.recipe;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.Pandarix.betterarcheology.BetterArcheology;
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
-import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
-public class IdentifyingRecipe implements Recipe<SimpleInventory>
+public class IdentifyingRecipe implements Recipe<CraftingRecipeInput>
 {
     private final Ingredient input;
     private final ItemStack result;
@@ -32,14 +33,14 @@ public class IdentifyingRecipe implements Recipe<SimpleInventory>
     }
 
     @Override
-    public boolean matches(@NotNull SimpleInventory pContainer, World pLevel)
+    public boolean matches(CraftingRecipeInput input, World world)
     {
-        if (pLevel.isClient())
+        if (world.isClient())
         {
             return false;
         }
 
-        return input.test(pContainer.getStack(0));
+        return this.input.test(input.getStackInSlot(0));
     }
 
     @Override
@@ -55,11 +56,10 @@ public class IdentifyingRecipe implements Recipe<SimpleInventory>
         return DefaultedList.copyOf(Ingredient.EMPTY, input);
     }
 
-    @NotNull
     @Override
-    public ItemStack craft(SimpleInventory pContainer, DynamicRegistryManager pRegistryAccess)
+    public ItemStack craft(CraftingRecipeInput input, RegistryWrapper.WrapperLookup lookup)
     {
-        return this.getResult(pRegistryAccess);
+        return this.getResult();
     }
 
     @Override
@@ -68,9 +68,8 @@ public class IdentifyingRecipe implements Recipe<SimpleInventory>
         return true;
     }
 
-    @NotNull
     @Override
-    public ItemStack getResult(DynamicRegistryManager pRegistryAccess)
+    public ItemStack getResult(RegistryWrapper.WrapperLookup registriesLookup)
     {
         return this.getResult();
     }
@@ -120,33 +119,40 @@ public class IdentifyingRecipe implements Recipe<SimpleInventory>
 
     public static class Serializer implements RecipeSerializer<IdentifyingRecipe>
     {
-        private static final Codec<IdentifyingRecipe> CODEC = RecordCodecBuilder.create(
+        private static final MapCodec<IdentifyingRecipe> CODEC = RecordCodecBuilder.mapCodec(
                 (builder) -> builder.group(
                         Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("input").forGetter((IdentifyingRecipe recipe) -> recipe.input),
                         ItemStack.CODEC.fieldOf("result").forGetter((IdentifyingRecipe recipe) -> recipe.result)
                 ).apply(builder, IdentifyingRecipe::new));
 
+        public static final PacketCodec<RegistryByteBuf, IdentifyingRecipe> PACKET_CODEC = PacketCodec.ofStatic(
+                IdentifyingRecipe.Serializer::write, IdentifyingRecipe.Serializer::read
+        );
+
         public static final Serializer INSTANCE = new Serializer();
 
         @Override
-        public @NotNull Codec<IdentifyingRecipe> codec()
+        public MapCodec<IdentifyingRecipe> codec()
         {
             return CODEC;
         }
 
         @Override
-        public void write(PacketByteBuf packetByteBuf, IdentifyingRecipe recipe)
+        public PacketCodec<RegistryByteBuf, IdentifyingRecipe> packetCodec()
         {
-            recipe.getIngredients().get(0).write(packetByteBuf);
-            packetByteBuf.writeItemStack(recipe.result);
+            return PACKET_CODEC;
         }
 
-        @Override
-        public IdentifyingRecipe read(PacketByteBuf packetByteBuf)
+        public static void write(RegistryByteBuf packetByteBuf, IdentifyingRecipe recipe)
         {
-            Ingredient input = Ingredient.fromPacket(packetByteBuf);
-            ItemStack result = packetByteBuf.readItemStack();
+            Ingredient.PACKET_CODEC.encode(packetByteBuf, recipe.input);
+            ItemStack.PACKET_CODEC.encode(packetByteBuf, recipe.result);
+        }
 
+        public static IdentifyingRecipe read(RegistryByteBuf packetByteBuf)
+        {
+            Ingredient input = Ingredient.PACKET_CODEC.decode(packetByteBuf);
+            ItemStack result = ItemStack.PACKET_CODEC.decode(packetByteBuf);
             return new IdentifyingRecipe(input, result);
         }
     }

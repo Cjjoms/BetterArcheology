@@ -1,10 +1,11 @@
 package net.Pandarix.betterarcheology.item;
 
 import net.Pandarix.betterarcheology.BetterArcheologyConfig;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -14,7 +15,6 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class TorrentTotemItem extends Item
                 (rotationVector.y * 0.1D + (rotationVector.y * 1.5D - velocity.y)) * boostY,
                 rotationVector.z * 0.1D + (rotationVector.z * 1.5D - velocity.z) * boostX)
         );
-        user.useRiptide(8);
+        user.useRiptide(8, 8, itemStack);
 
         //sounds
         world.playSoundFromEntity(null, user, SoundEvents.BLOCK_WATER_AMBIENT, SoundCategory.NEUTRAL, 0.1f, (float) world.getRandom().nextDouble() * 0.5f + 0.5f);
@@ -62,8 +62,7 @@ public class TorrentTotemItem extends Item
 
         //tool action completion
         user.getItemCooldownManager().set(this, 120);
-        itemStack.damage(1, user, (p) ->
-                p.sendToolBreakStatus(hand));
+        itemStack.damage(1, user, LivingEntity.getSlotForHand(hand));
 
         return TypedActionResult.consume(itemStack);
     }
@@ -75,10 +74,10 @@ public class TorrentTotemItem extends Item
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type)
     {
         tooltip.add(Text.translatable(this.getTranslationKey() + "_description").formatted(Formatting.DARK_AQUA));
-        super.appendTooltip(stack, world, tooltip, context);
+        super.appendTooltip(stack, context, tooltip, type);
 
     }
 
@@ -89,7 +88,7 @@ public class TorrentTotemItem extends Item
     }
 
     @Override
-    public int getMaxUseTime(ItemStack stack)
+    public int getMaxUseTime(ItemStack stack, LivingEntity user)
     {
         return 0;
     }

@@ -25,7 +25,7 @@ public class ModEnchantments
     private static Enchantment register(String name, Enchantment enchantment)
     {
         registerEnchantedBookWith(enchantment);
-        return Registry.register(Registries.ENCHANTMENT, new Identifier(BetterArcheology.MOD_ID, name), enchantment);
+        return Registry.register(Registries.ENCHANTMENT, Identifier.of(BetterArcheology.MOD_ID, name), enchantment);
     }
 
     private static void registerEnchantedBookWith(Enchantment enchantment)

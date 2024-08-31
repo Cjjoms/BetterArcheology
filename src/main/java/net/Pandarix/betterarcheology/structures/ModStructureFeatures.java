@@ -12,6 +12,6 @@ public class ModStructureFeatures
 
     public static void registerStructureFeatures()
     {
-        BETTERARCHEOLOGY_STRUCTURES = Registry.register(Registries.STRUCTURE_TYPE, new Identifier(BetterArcheology.MOD_ID, "betterarcheology_structures"), () -> ModStructures.CODEC);
+        BETTERARCHEOLOGY_STRUCTURES = Registry.register(Registries.STRUCTURE_TYPE, Identifier.of(BetterArcheology.MOD_ID, "betterarcheology_structures"), () -> ModStructures.CODEC);
     }
 }

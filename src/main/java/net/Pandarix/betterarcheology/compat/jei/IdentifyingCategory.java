@@ -22,8 +22,8 @@ import java.util.List;
 
 public class IdentifyingCategory implements IRecipeCategory<IdentifyingRecipe>
 {
-    public static final Identifier UID = new Identifier(BetterArcheology.MOD_ID, "identifying");
-    public static final Identifier TEXTURE = new Identifier(BetterArcheology.MOD_ID,
+    public static final Identifier UID = Identifier.of(BetterArcheology.MOD_ID, "identifying");
+    public static final Identifier TEXTURE = Identifier.of(BetterArcheology.MOD_ID,
             "textures/gui/archeology_table_overlay.png");
 
     public static final RecipeType<IdentifyingRecipe> IDENTIFYING_RECIPE_TYPE = new RecipeType<>(UID, IdentifyingRecipe.class);

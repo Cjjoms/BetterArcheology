@@ -42,12 +42,16 @@ public class BetterBrushItem extends BrushItem
         return UseAction.BRUSH;
     }
 
-    public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
-        if (remainingUseTicks >= 0 && user instanceof PlayerEntity playerEntity) {
+    public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks)
+    {
+        if (remainingUseTicks >= 0 && user instanceof PlayerEntity playerEntity)
+        {
             HitResult hitResult = this.getHitResult(playerEntity);
-            if (hitResult instanceof BlockHitResult blockHitResult) {
-                if (hitResult.getType() == HitResult.Type.BLOCK) {
-                    int i = this.getMaxUseTime(stack) - remainingUseTicks + 1;
+            if (hitResult instanceof BlockHitResult blockHitResult)
+            {
+                if (hitResult.getType() == HitResult.Type.BLOCK)
+                {
+                    int i = this.getMaxUseTime(stack, user) - remainingUseTicks + 1;
                     boolean bl = i % brushingSpeed == brushingSpeed / 2;
                     if (bl)
                     {
@@ -69,13 +73,13 @@ public class BetterBrushItem extends BrushItem
                         if (!world.isClient())
                         {
                             BlockEntity var18 = world.getBlockEntity(blockPos);
-                            if (var18 instanceof BrushableBlockEntity brushableBlockEntity) {
+                            if (var18 instanceof BrushableBlockEntity brushableBlockEntity)
+                            {
                                 boolean bl2 = brushableBlockEntity.brush(world.getTime(), playerEntity, blockHitResult.getSide());
                                 if (bl2)
                                 {
                                     EquipmentSlot equipmentSlot = stack.equals(playerEntity.getEquippedStack(EquipmentSlot.OFFHAND)) ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
-                                    stack.damage(1, user, (userx) ->
-                                            userx.sendEquipmentBreakStatus(equipmentSlot));
+                                    stack.damage(1, user, equipmentSlot);
                                 }
                             }
                         }

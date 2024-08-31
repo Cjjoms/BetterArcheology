@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 
 public class FossilInventoryScreen extends HandledScreen<FossilInventoryScreenHandler>
 {
-    private static final Identifier TEXTURE = new Identifier(BetterArcheology.MOD_ID, "textures/gui/fossil_gui.png");
+    private static final Identifier TEXTURE = Identifier.of(BetterArcheology.MOD_ID, "textures/gui/fossil_gui.png");
 
     public FossilInventoryScreen(FossilInventoryScreenHandler handler, PlayerInventory inventory, Text title)
     {
@@ -28,7 +28,7 @@ public class FossilInventoryScreen extends HandledScreen<FossilInventoryScreenHa
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY)
     {
-        RenderSystem.setShader(GameRenderer::getPositionColorTexProgram);
+        RenderSystem.setShader(GameRenderer::getPositionColorTexLightmapProgram);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
         int x = (width - backgroundWidth) / 2;

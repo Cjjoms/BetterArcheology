@@ -1,14 +1,13 @@
 package net.Pandarix.betterarcheology.item;
 
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -20,7 +19,6 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -33,7 +31,7 @@ public class SoulTotemItem extends Item
     }
 
     @Override
-    public int getMaxUseTime(ItemStack stack)
+    public int getMaxUseTime(ItemStack stack, LivingEntity user)
     {
         return 6;
     }
@@ -60,7 +58,7 @@ public class SoulTotemItem extends Item
             return stack;
         }
 
-        HitResult hitresult = ProjectileUtil.getCollision(player, Predicate.not(Entity::isSpectator), Math.sqrt(ServerPlayNetworkHandler.MAX_BREAK_SQUARED_DISTANCE) - 1.0);
+        HitResult hitresult = ProjectileUtil.getCollision(player, Predicate.not(Entity::isSpectator), Math.sqrt(player.getBlockInteractionRange()) - 1.0);
 
         //if an entity is being targeted
         if (hitresult instanceof EntityHitResult entityHitResult)
@@ -97,10 +95,7 @@ public class SoulTotemItem extends Item
                         player.heal(4);
                         //set cooldown and damage stack
                         player.getItemCooldownManager().set(this, 180);
-                        stack.damage(1, user, (p) ->
-                        {
-                            p.sendToolBreakStatus(player.getActiveHand());
-                        });
+                        stack.damage(1, user, LivingEntity.getSlotForHand(user.getActiveHand()));
                     }
                 }
 
@@ -115,9 +110,9 @@ public class SoulTotemItem extends Item
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type)
     {
-        super.appendTooltip(stack, world, tooltip, context);
+        super.appendTooltip(stack, context, tooltip, type);
         tooltip.add(Text.translatable(this.getTranslationKey() + "_description").formatted(Formatting.DARK_AQUA));
     }
 }

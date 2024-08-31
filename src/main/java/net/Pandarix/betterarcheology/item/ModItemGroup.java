@@ -18,7 +18,7 @@ public class ModItemGroup
     Creates FabricItemGroup with an ItemStack as a Symbol
     The Name of the Tab is located in the .lang file under "itemGroup.betterarcheology"
      */
-    public static final RegistryKey<ItemGroup> BETTER_ARCHEOLOGY_ITEMGROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(BetterArcheology.MOD_ID, "betterarcheology"));
+    public static final RegistryKey<ItemGroup> BETTER_ARCHEOLOGY_ITEMGROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier.of(BetterArcheology.MOD_ID, "betterarcheology"));
 
     public static void registerTab()
     {

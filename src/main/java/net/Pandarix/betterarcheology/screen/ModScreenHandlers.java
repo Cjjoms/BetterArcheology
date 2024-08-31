@@ -14,7 +14,7 @@ public class ModScreenHandlers
 
     public static void registerAllScreenHandlers()
     {
-        Registry.register(Registries.SCREEN_HANDLER, new Identifier(BetterArcheology.MOD_ID, "archeology_table"), IDENTIFYING_SCREEN_HANDLER);
-        Registry.register(Registries.SCREEN_HANDLER, new Identifier(BetterArcheology.MOD_ID, "fossil"), FOSSIL_SCREEN_HANDLER);
+        Registry.register(Registries.SCREEN_HANDLER, Identifier.of(BetterArcheology.MOD_ID, "archeology_table"), IDENTIFYING_SCREEN_HANDLER);
+        Registry.register(Registries.SCREEN_HANDLER, Identifier.of(BetterArcheology.MOD_ID, "fossil"), FOSSIL_SCREEN_HANDLER);
     }
 }

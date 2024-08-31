@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 public class BombItem extends Item
 {
     //gets id of advancement for having thrown a bomb which has the condition "impossible" because it needs to be triggered here
-    Identifier ADVANCEMENT_ID = new Identifier(BetterArcheology.MOD_ID, "used_bomb_item");
+    Identifier ADVANCEMENT_ID = Identifier.of(BetterArcheology.MOD_ID, "used_bomb_item");
 
     public BombItem(Settings settings)
     {

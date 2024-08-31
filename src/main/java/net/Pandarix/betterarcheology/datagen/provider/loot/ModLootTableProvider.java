@@ -9,36 +9,42 @@ import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
+import net.minecraft.loot.context.LootContextType;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.function.SetStewEffectLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
 public class ModLootTableProvider extends SimpleFabricLootTableProvider
 {
     //references for other loot tables
-    protected static final Identifier SUPPLY_LOOTTABLE_ID = new Identifier(BetterArcheology.MOD_ID, "blocks/supply_loot_from_loot_vase");
-    protected static final Identifier TREASURE_LOOTTABLE_ID = new Identifier(BetterArcheology.MOD_ID, "blocks/treasure_loot_from_loot_vase");
-    protected static final Identifier GREEN_TREASURE_LOOTTABLE_ID = new Identifier(BetterArcheology.MOD_ID, "blocks/treasure_loot_from_green_loot_vase");
+    protected static final RegistryKey<LootTable> SUPPLY_LOOTTABLE_KEY = RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier.of(BetterArcheology.MOD_ID, "blocks/supply_loot_from_loot_vase"));
+    protected static final RegistryKey<LootTable> TREASURE_LOOTTABLE_KEY = RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier.of(BetterArcheology.MOD_ID, "blocks/treasure_loot_from_loot_vase"));
+    protected static final RegistryKey<LootTable> GREEN_TREASURE_LOOTTABLE_KEY = RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier.of(BetterArcheology.MOD_ID, "blocks/treasure_loot_from_green_loot_vase"));
 
     //universal shard drop rate
     protected static final LootPool.Builder SHARD_POOL_BUILDER = LootPool.builder().rolls(ConstantLootNumberProvider.create(1))
             .with(ItemEntry.builder(ModItems.ARTIFACT_SHARDS).conditionally(RandomChanceLootCondition.builder(.5F)));
-    
-    public ModLootTableProvider(FabricDataOutput output)
+
+    public ModLootTableProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup, LootContextType lootContextType)
     {
-        super(output, LootContextTypes.BLOCK);
+        super(output, registryLookup, lootContextType);
     }
 
     @Override
-    public void accept(BiConsumer<Identifier, LootTable.Builder> exporter)
+    public void accept(BiConsumer<RegistryKey<LootTable>, LootTable.Builder> lootTableBiConsumer)
     {
-        exporter.accept(SUPPLY_LOOTTABLE_ID, LootTable.builder()
+        lootTableBiConsumer.accept(SUPPLY_LOOTTABLE_KEY, LootTable.builder()
                 .pool(LootPool.builder().rolls(UniformLootNumberProvider.create(2, 3))
                         .with(ItemEntry.builder(Items.BONE).weight(10).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1, 3))))
                         .with(ItemEntry.builder(Items.ROTTEN_FLESH).weight(15).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(2, 4))))
@@ -65,7 +71,7 @@ public class ModLootTableProvider extends SimpleFabricLootTableProvider
 
         //LOOT VASE TREASURE LOOT-------
         //NORMAL
-        exporter.accept(TREASURE_LOOTTABLE_ID, LootTable.builder()
+        lootTableBiConsumer.accept(TREASURE_LOOTTABLE_KEY, LootTable.builder()
                 .pool(LootPool.builder().rolls(UniformLootNumberProvider.create(2, 3))
                         .with(ItemEntry.builder(Items.IRON_NUGGET).weight(5).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(3, 8))))
                         .with(ItemEntry.builder(Items.GOLD_NUGGET).weight(5).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(3, 8))))
@@ -78,7 +84,7 @@ public class ModLootTableProvider extends SimpleFabricLootTableProvider
         );
 
         //GREEN
-        exporter.accept(GREEN_TREASURE_LOOTTABLE_ID, LootTable.builder()
+        lootTableBiConsumer.accept(GREEN_TREASURE_LOOTTABLE_KEY, LootTable.builder()
                 .pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(2))
                         .with(ItemEntry.builder(Items.GUNPOWDER).weight(5).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(2, 4))))
                         .with(ItemEntry.builder(Items.CLAY_BALL).weight(5).apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(3, 7))))

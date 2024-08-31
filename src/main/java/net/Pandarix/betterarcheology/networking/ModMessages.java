@@ -7,7 +7,7 @@ import net.minecraft.util.Identifier;
 
 public class ModMessages
 {
-    public static final Identifier ITEM_SYNC = new Identifier(BetterArcheology.MOD_ID, "item_sync");
+    public static final Identifier ITEM_SYNC = Identifier.of(BetterArcheology.MOD_ID, "item_sync");
 
     public static void registerC2SPackets()
     {
