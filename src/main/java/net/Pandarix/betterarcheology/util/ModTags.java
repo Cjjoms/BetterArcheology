@@ -18,6 +18,10 @@ public class ModTags
     {
         public static final TagKey<Item> BRUSHES = TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "brushes"));
 
+        public static final TagKey<Item> ELYTRAS = TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "elytras"));
+
         public static final TagKey<Item> ROTTEN_LOGS = TagKey.of(RegistryKeys.ITEM, Identifier.of(BetterArcheology.MOD_ID,"rotten_logs"));
+
+        public static final TagKey<Item> TUNNELING_ITEMS = TagKey.of(RegistryKeys.ITEM, Identifier.of(BetterArcheology.MOD_ID,"tunneling_items"));
     }
 }

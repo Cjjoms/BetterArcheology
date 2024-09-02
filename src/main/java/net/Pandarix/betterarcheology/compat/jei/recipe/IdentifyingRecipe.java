@@ -3,10 +3,9 @@ package net.Pandarix.betterarcheology.compat.jei.recipe;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.Pandarix.betterarcheology.BetterArcheology;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.LoreComponent;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.recipe.Ingredient;
@@ -14,17 +13,20 @@ import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.input.CraftingRecipeInput;
-import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class IdentifyingRecipe implements Recipe<CraftingRecipeInput>
 {
     private final Ingredient input;
     private final ItemStack result;
-    private static final int POSSIBLE_RESULT_COUNT = Registries.ENCHANTMENT.streamEntries().filter(reference -> reference.registryKey().getValue().getNamespace().equals(BetterArcheology.MOD_ID)).toList().size();
+    private static int POSSIBLE_RESULT_COUNT = 0;
 
     public IdentifyingRecipe(Ingredient inputItems, ItemStack result)
     {
@@ -59,7 +61,7 @@ public class IdentifyingRecipe implements Recipe<CraftingRecipeInput>
     @Override
     public ItemStack craft(CraftingRecipeInput input, RegistryWrapper.WrapperLookup lookup)
     {
-        return this.getResult();
+        return this.getResult(lookup);
     }
 
     @Override
@@ -68,34 +70,26 @@ public class IdentifyingRecipe implements Recipe<CraftingRecipeInput>
         return true;
     }
 
-    @Override
-    public ItemStack getResult(RegistryWrapper.WrapperLookup registriesLookup)
-    {
-        return this.getResult();
-    }
-
-    /**
-     * Extra method instead of {@link #getResult} for use without unnecessary parameter
-     *
-     * @return ItemStack to be crafted when done
-     */
-    public ItemStack getResult()
+    public ItemStack getResult(int amountOfEnchantsPossible)
     {
         //Adding the Enchantment Tags
         ItemStack modifiedResultBook = result.copy();
-
-        //Adding the Custom Name Tags
-        NbtCompound nameModification = new NbtCompound();
-        nameModification.putString("Name", "{\"translate\":\"item.betterarcheology.identified_artifact\"}");
-
-        //Adding Chance as Lore Tag
-        NbtList lore = new NbtList();
-        lore.add(NbtString.of(String.format("{\"text\":\"Chance: 1/%d\",\"color\":\"aqua\"}", POSSIBLE_RESULT_COUNT)));
-        nameModification.put("Lore", lore);
-
-        //output the book with the modifications
-        modifiedResultBook.setSubNbt("display", nameModification);
+        //apply custom naming to the book
+        modifiedResultBook.set(DataComponentTypes.ITEM_NAME, Text.translatable("item.betterarcheology.identified_artifact"));
+        modifiedResultBook.set(DataComponentTypes.LORE, new LoreComponent(
+                List.of(Text.literal(String.format("{\"text\":\"Chance: 1/%d\",\"color\":\"aqua\"}", amountOfEnchantsPossible)))
+        ));
         return modifiedResultBook;
+    }
+
+    @Override
+    public ItemStack getResult(RegistryWrapper.WrapperLookup registriesLookup)
+    {
+        if (POSSIBLE_RESULT_COUNT == 0)
+        {
+            POSSIBLE_RESULT_COUNT = registriesLookup.getWrapperOrThrow(RegistryKeys.ENCHANTMENT).streamEntries().filter(reference -> reference.registryKey().getValue().getNamespace().equals(BetterArcheology.MOD_ID)).toList().size();
+        }
+        return getResult(POSSIBLE_RESULT_COUNT);
     }
 
     @Override

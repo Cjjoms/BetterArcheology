@@ -1,6 +1,7 @@
 package net.Pandarix.betterarcheology.datagen;
 
 import net.Pandarix.betterarcheology.datagen.provider.ModBlockTagProvider;
+import net.Pandarix.betterarcheology.datagen.provider.ModEnchantmentProvider;
 import net.Pandarix.betterarcheology.datagen.provider.ModItemTagProvider;
 import net.Pandarix.betterarcheology.datagen.provider.ModRecipeProvider;
 import net.Pandarix.betterarcheology.datagen.provider.loot.ModBlockLootTableProvider;
@@ -19,5 +20,6 @@ public class ModDataGenerator implements DataGeneratorEntrypoint
         pack.addProvider(ModLootTableProvider::new);
         pack.addProvider(ModBlockLootTableProvider::new);
         pack.addProvider(ModRecipeProvider::new);
+        pack.addProvider(ModEnchantmentProvider::new);
     }
 }

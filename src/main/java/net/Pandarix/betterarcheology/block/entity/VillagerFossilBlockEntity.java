@@ -18,6 +18,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -37,17 +38,17 @@ public class VillagerFossilBlockEntity extends BlockEntity implements NamedScree
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt)
+    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
     {
-        super.writeNbt(nbt);
-        Inventories.writeNbt(nbt, inventory);
+        super.writeNbt(nbt, registryLookup);
+        Inventories.writeNbt(nbt, inventory, registryLookup);
     }
 
     @Override
-    public void readNbt(NbtCompound nbt)
+    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
     {
-        Inventories.readNbt(nbt, inventory);
-        super.readNbt(nbt);
+        Inventories.readNbt(nbt, inventory, registryLookup);
+        super.readNbt(nbt, registryLookup);
     }
 
     @Override

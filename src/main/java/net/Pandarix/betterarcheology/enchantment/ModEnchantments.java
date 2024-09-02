@@ -1,20 +1,25 @@
 package net.Pandarix.betterarcheology.enchantment;
 
+import com.mojang.serialization.MapCodec;
 import net.Pandarix.betterarcheology.BetterArcheology;
 import net.Pandarix.betterarcheology.item.ModItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentLevelEntry;
-import net.minecraft.enchantment.EnchantmentTarget;
-import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.enchantment.effect.EnchantmentEntityEffect;
 import net.minecraft.item.EnchantedBookItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
-public class ModEnchantments
+/*public class ModEnchantments
 {
     public static Enchantment PENETRATING_STRIKE = register("penetrating_strike", new PenetratingStrikeEnchantment(Enchantment.Rarity.VERY_RARE, EquipmentSlot.MAINHAND));
     public static Enchantment SOARING_WINDS = register("soaring_winds", new SoaringWindsEnchantment(Enchantment.Rarity.VERY_RARE, EnchantmentTarget.ARMOR_CHEST, EquipmentSlot.MAINHAND));
@@ -32,6 +37,34 @@ public class ModEnchantments
     {
         ItemGroupEvents.modifyEntriesEvent(ModItemGroup.BETTER_ARCHEOLOGY_ITEMGROUP).register(entries -> entries.add(EnchantedBookItem.forEnchantment(new EnchantmentLevelEntry(enchantment, 1)).setCustomName(Text.translatable("item.betterarcheology.identified_artifact").formatted(Formatting.RESET,
                 Formatting.YELLOW))));
+    }
+
+    //LOGGER
+    public static void registerModEnchantments()
+    {
+        BetterArcheology.LOGGER.info("Registering Enchantments for " + BetterArcheology.MOD_ID);
+    }
+}*/
+public class ModEnchantments
+{
+    public static final RegistryKey<Enchantment> PENETRATING_STRIKE_KEY = RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(BetterArcheology.MOD_ID, "penetrating_strike"));
+    public static final RegistryKey<Enchantment> SOARING_WINDS_KEY = RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(BetterArcheology.MOD_ID, "soaring_winds"));
+    public static final RegistryKey<Enchantment> TUNNELING_KEY = RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(BetterArcheology.MOD_ID, "tunneling"));
+
+    public static void registerEnchantedBookWith(RegistryEntry<Enchantment> enchantmentEntry)
+    {
+        ItemStack book = EnchantedBookItem.forEnchantment(new EnchantmentLevelEntry(enchantmentEntry, 1));
+        book.set(DataComponentTypes.ITEM_NAME, Text.translatable("item.betterarcheology.identified_artifact")
+                .formatted(Formatting.RESET, Formatting.YELLOW));
+
+        ItemGroupEvents.modifyEntriesEvent(ModItemGroup.BETTER_ARCHEOLOGY_ITEMGROUP).register(entries -> entries.add(book));
+    }
+
+    public static final MapCodec<PenetratingStrikeEnchantmentEffect> PENETRATING_STRIKE_EFFECT = register("penetrating_strike", PenetratingStrikeEnchantmentEffect.CODEC);
+
+    private static <T extends EnchantmentEntityEffect> MapCodec<T> register(String name, MapCodec<T> codec)
+    {
+        return Registry.register(Registries.ENCHANTMENT_ENTITY_EFFECT_TYPE, Identifier.of(BetterArcheology.MOD_ID, name), codec);
     }
 
     //LOGGER

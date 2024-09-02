@@ -21,6 +21,14 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider
     @Override
     protected void configure(RegistryWrapper.WrapperLookup arg)
     {
+        getOrCreateTagBuilder(ModTags.Items.TUNNELING_ITEMS)
+                .addTag(ItemTags.PICKAXES)
+                .addTag(ItemTags.SHOVELS)
+                .addTag(ItemTags.HOES);
+
+        getOrCreateTagBuilder(ModTags.Items.ELYTRAS)
+                .add(Items.ELYTRA);
+
         getOrCreateTagBuilder(ModTags.Items.ROTTEN_LOGS)
                 .add(ModBlocks.ROTTEN_LOG.asItem());
 

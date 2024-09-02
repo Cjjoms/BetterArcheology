@@ -12,7 +12,6 @@ import net.Pandarix.betterarcheology.screen.ModScreenHandlers;
 import net.Pandarix.betterarcheology.structures.ModStructureFeatures;
 import net.Pandarix.betterarcheology.util.ModDispenserBehaviour;
 import net.Pandarix.betterarcheology.villager.ModVillagers;
-import net.Pandarix.betterarcheology.world.processor.ModProcessorTypes;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +51,6 @@ public class BetterArcheology implements ModInitializer
         ModEnchantments.registerModEnchantments();
 
         ModDispenserBehaviour.registerDispenserBehaviour();
-        ModProcessorTypes.registerProcessorTypes();
         ModStructureFeatures.registerStructureFeatures();
     }
 }

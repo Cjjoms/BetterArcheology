@@ -1,8 +1,10 @@
 package net.Pandarix.betterarcheology.structures;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.structure.StructureLiquidSettings;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolBasedGenerator;
 import net.minecraft.structure.pool.alias.StructurePoolAliasBinding;
@@ -13,6 +15,8 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.gen.HeightContext;
 import net.minecraft.world.gen.heightprovider.HeightProvider;
+import net.minecraft.world.gen.structure.DimensionPadding;
+import net.minecraft.world.gen.structure.JigsawStructure;
 import net.minecraft.world.gen.structure.Structure;
 import net.minecraft.world.gen.structure.StructureType;
 
@@ -21,21 +25,22 @@ import java.util.Optional;
 
 public class ModStructures extends Structure
 {
+    //TODO: remove YungsAPI dependency if waterlogging is actually fixed in this version
 
     // A custom codec that changes the size limit for our code_structure_sky_fan.json's config to not be capped at 7.
     // With this, we can have a structure with a size limit up to 30 if we want to have extremely long branches of pieces in the structure.
-    public static final Codec<ModStructures> CODEC = RecordCodecBuilder.<ModStructures>mapCodec(instance ->
+    public static final MapCodec<ModStructures> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(ModStructures.configCodecBuilder(instance),
                     StructurePool.REGISTRY_CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
                     Identifier.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(structure -> structure.startJigsawName),
-                    Codec.intRange(0, 50).fieldOf("size").forGetter(structure -> structure.size),
+                    Codec.intRange(0, 30).fieldOf("size").forGetter(structure -> structure.size),
                     HeightProvider.CODEC.fieldOf("start_height").forGetter(structure -> structure.startHeight),
                     Heightmap.Type.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(structure -> structure.projectStartToHeightmap),
                     Codec.intRange(1, 128).fieldOf("max_distance_from_center").forGetter(structure -> structure.maxDistanceFromCenter),
-                    Codec.list(StructurePoolAliasBinding.CODEC).optionalFieldOf("pool_aliases", List.of()).forGetter((structure) -> {
-                        return structure.poolAliasBindings;
-                    })
-            ).apply(instance, ModStructures::new)).codec();
+                    Codec.list(StructurePoolAliasBinding.CODEC).optionalFieldOf("pool_aliases", List.of()).forGetter((structure) -> structure.poolAliasBindings),
+                    DimensionPadding.CODEC.optionalFieldOf("dimension_padding", JigsawStructure.DEFAULT_DIMENSION_PADDING).forGetter(structure -> structure.dimensionPadding),
+                    StructureLiquidSettings.codec.optionalFieldOf("liquid_settings", JigsawStructure.DEFAULT_LIQUID_SETTINGS).forGetter(structure -> structure.liquidSettings)
+            ).apply(instance, ModStructures::new));
 
     private final RegistryEntry<StructurePool> startPool;
     private final Optional<Identifier> startJigsawName;
@@ -44,6 +49,8 @@ public class ModStructures extends Structure
     private final Optional<Heightmap.Type> projectStartToHeightmap;
     private final int maxDistanceFromCenter;
     private final List<StructurePoolAliasBinding> poolAliasBindings;
+    private final DimensionPadding dimensionPadding;
+    private final StructureLiquidSettings liquidSettings;
 
     public ModStructures(Structure.Config config,
                          RegistryEntry<StructurePool> startPool,
@@ -52,7 +59,9 @@ public class ModStructures extends Structure
                          HeightProvider startHeight,
                          Optional<Heightmap.Type> projectStartToHeightmap,
                          int maxDistanceFromCenter,
-                         List<StructurePoolAliasBinding> poolAliasBindings)
+                         List<StructurePoolAliasBinding> poolAliasBindings,
+                         DimensionPadding dimensionPadding,
+                         StructureLiquidSettings liquidSettings)
     {
         super(config);
         this.startPool = startPool;
@@ -62,6 +71,8 @@ public class ModStructures extends Structure
         this.projectStartToHeightmap = projectStartToHeightmap;
         this.maxDistanceFromCenter = maxDistanceFromCenter;
         this.poolAliasBindings = poolAliasBindings;
+        this.dimensionPadding = dimensionPadding;
+        this.liquidSettings = liquidSettings;
     }
 
     /*
@@ -138,7 +149,10 @@ public class ModStructures extends Structure
                         // Set this to false for structure to be place only at the passed in blockpos's Y value instead.
                         // Definitely keep this false when placing structures in the nether as otherwise, heightmap placing will put the structure on the Bedrock roof.
                         this.maxDistanceFromCenter, // Maximum limit for how far pieces can spawn from center. You cannot set this bigger than 128 or else pieces gets cutoff.
-                        StructurePoolAliasLookup.create(this.poolAliasBindings, blockPos, context.seed()));
+                        StructurePoolAliasLookup.create(this.poolAliasBindings, blockPos, context.seed()),
+                        this.dimensionPadding,
+                        this.liquidSettings
+                );
 
         /*
          * Note, you are always free to make your own StructurePoolBasedGenerator class and implementation of how the structure

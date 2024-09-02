@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 public class ModDispenserBehaviour {
     public static void registerDispenserBehaviour() {
         if(BetterArcheologyConfig.shootBombsFromDispensers.get()) {
-            DispenserBlock.registerBehavior(ModItems.BOMB_ITEM, new ProjectileDispenserBehavior() {
+            DispenserBlock.registerBehavior(ModItems.BOMB_ITEM, new ProjectileDispenserBehavior(ModItems.BOMB_ITEM) {
                 protected ProjectileEntity createProjectile(World world, Position position, ItemStack stack) {
                     return new BombEntity(world, position.getX(), position.getY(), position.getZ());
                 }

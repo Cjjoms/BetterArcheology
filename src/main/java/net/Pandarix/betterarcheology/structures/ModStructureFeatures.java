@@ -15,3 +15,4 @@ public class ModStructureFeatures
         BETTERARCHEOLOGY_STRUCTURES = Registry.register(Registries.STRUCTURE_TYPE, Identifier.of(BetterArcheology.MOD_ID, "betterarcheology_structures"), () -> ModStructures.CODEC);
     }
 }
+}

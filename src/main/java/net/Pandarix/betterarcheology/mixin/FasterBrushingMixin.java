@@ -21,7 +21,7 @@ public abstract class FasterBrushingMixin
     {
         if (player.getActiveItem().getItem() instanceof BetterBrushItem brushItem)
         {
-            this.nextBrushTime -= (10L - brushItem.getBrushingSpeed());
+            this.nextBrushTime -= (long) (10L - brushItem.getBrushingSpeed());
         }
     }
 }

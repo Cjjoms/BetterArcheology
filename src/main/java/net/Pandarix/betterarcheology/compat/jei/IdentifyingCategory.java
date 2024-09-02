@@ -74,6 +74,6 @@ public class IdentifyingCategory implements IRecipeCategory<IdentifyingRecipe>
 
         builder.addSlot(RecipeIngredientRole.INPUT, 26, 48).addIngredients(recipe.getIngredients().get(0));
 
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 134, 48).addItemStack(recipe.getResult());
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 134, 48).addItemStack(recipe.getResult(3));
     }
 }

@@ -15,12 +15,15 @@ import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryWrapper;
+
+import java.util.concurrent.CompletableFuture;
 
 public class ModBlockLootTableProvider extends FabricBlockLootTableProvider
 {
-    public ModBlockLootTableProvider(FabricDataOutput dataOutput)
+    public ModBlockLootTableProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup)
     {
-        super(dataOutput);
+        super(dataOutput, registryLookup);
     }
 
     @Override
@@ -74,29 +77,29 @@ public class ModBlockLootTableProvider extends FabricBlockLootTableProvider
         //VASES
         addDrop(ModBlocks.LOOT_VASE, block ->
                 LootTable.builder()
-                        .pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1)).with(ItemEntry.builder(ModBlocks.VASE).conditionally(WITH_SILK_TOUCH)))
+                        .pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1)).with(ItemEntry.builder(ModBlocks.VASE).conditionally(this.createSilkTouchCondition())))
                         .pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1))
-                                .with(LootTableEntry.builder(ModLootTableProvider.SUPPLY_LOOTTABLE_ID))
-                                .with(LootTableEntry.builder(ModLootTableProvider.TREASURE_LOOTTABLE_ID))
-                                .conditionally(WITHOUT_SILK_TOUCH))
+                                .with(LootTableEntry.builder(ModLootTableProvider.SUPPLY_LOOTTABLE_KEY))
+                                .with(LootTableEntry.builder(ModLootTableProvider.TREASURE_LOOTTABLE_KEY))
+                                .conditionally(this.createWithoutSilkTouchCondition()))
         );
 
         addDrop(ModBlocks.LOOT_VASE_CREEPER, block ->
                 LootTable.builder()
-                        .pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1)).with(ItemEntry.builder(ModBlocks.VASE_CREEPER).conditionally(WITH_SILK_TOUCH)))
+                        .pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1)).with(ItemEntry.builder(ModBlocks.VASE_CREEPER).conditionally(this.createSilkTouchCondition())))
                         .pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1))
-                                .with(LootTableEntry.builder(ModLootTableProvider.SUPPLY_LOOTTABLE_ID))
-                                .with(LootTableEntry.builder(ModLootTableProvider.TREASURE_LOOTTABLE_ID))
-                                .conditionally(WITHOUT_SILK_TOUCH))
+                                .with(LootTableEntry.builder(ModLootTableProvider.SUPPLY_LOOTTABLE_KEY))
+                                .with(LootTableEntry.builder(ModLootTableProvider.TREASURE_LOOTTABLE_KEY))
+                                .conditionally(this.createWithoutSilkTouchCondition()))
         );
 
         addDrop(ModBlocks.LOOT_VASE_GREEN, block ->
                 LootTable.builder()
-                        .pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1)).with(ItemEntry.builder(ModBlocks.VASE_GREEN).conditionally(WITH_SILK_TOUCH)))
+                        .pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1)).with(ItemEntry.builder(ModBlocks.VASE_GREEN).conditionally(this.createSilkTouchCondition())))
                         .pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1))
-                                .with(LootTableEntry.builder(ModLootTableProvider.SUPPLY_LOOTTABLE_ID))
-                                .with(LootTableEntry.builder(ModLootTableProvider.GREEN_TREASURE_LOOTTABLE_ID))
-                                .conditionally(WITHOUT_SILK_TOUCH))
+                                .with(LootTableEntry.builder(ModLootTableProvider.SUPPLY_LOOTTABLE_KEY))
+                                .with(LootTableEntry.builder(ModLootTableProvider.GREEN_TREASURE_LOOTTABLE_KEY))
+                                .conditionally(this.createWithoutSilkTouchCondition()))
         );
     }
 

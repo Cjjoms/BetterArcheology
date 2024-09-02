@@ -9,14 +9,12 @@ import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
-import net.minecraft.loot.context.LootContextType;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.function.SetStewEffectLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
@@ -28,17 +26,17 @@ import java.util.function.BiConsumer;
 public class ModLootTableProvider extends SimpleFabricLootTableProvider
 {
     //references for other loot tables
-    protected static final RegistryKey<LootTable> SUPPLY_LOOTTABLE_KEY = RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier.of(BetterArcheology.MOD_ID, "blocks/supply_loot_from_loot_vase"));
-    protected static final RegistryKey<LootTable> TREASURE_LOOTTABLE_KEY = RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier.of(BetterArcheology.MOD_ID, "blocks/treasure_loot_from_loot_vase"));
-    protected static final RegistryKey<LootTable> GREEN_TREASURE_LOOTTABLE_KEY = RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier.of(BetterArcheology.MOD_ID, "blocks/treasure_loot_from_green_loot_vase"));
+    public static final RegistryKey<LootTable> SUPPLY_LOOTTABLE_KEY = RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier.of(BetterArcheology.MOD_ID, "blocks/supply_loot_from_loot_vase"));
+    public static final RegistryKey<LootTable> TREASURE_LOOTTABLE_KEY = RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier.of(BetterArcheology.MOD_ID, "blocks/treasure_loot_from_loot_vase"));
+    public static final RegistryKey<LootTable> GREEN_TREASURE_LOOTTABLE_KEY = RegistryKey.of(RegistryKeys.LOOT_TABLE, Identifier.of(BetterArcheology.MOD_ID, "blocks/treasure_loot_from_green_loot_vase"));
 
     //universal shard drop rate
     protected static final LootPool.Builder SHARD_POOL_BUILDER = LootPool.builder().rolls(ConstantLootNumberProvider.create(1))
             .with(ItemEntry.builder(ModItems.ARTIFACT_SHARDS).conditionally(RandomChanceLootCondition.builder(.5F)));
 
-    public ModLootTableProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup, LootContextType lootContextType)
+    public ModLootTableProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup)
     {
-        super(output, registryLookup, lootContextType);
+        super(output, registryLookup, LootContextTypes.BLOCK);
     }
 
     @Override
