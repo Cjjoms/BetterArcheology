@@ -42,7 +42,7 @@ public class ModBlocks
     public static final Block SUSPICIOUS_DIRT = registerBlock("suspicious_dirt", new SusBlock(Blocks.DIRT, AbstractBlock.Settings.copy(Blocks.SUSPICIOUS_GRAVEL), SoundEvents.ITEM_BRUSH_BRUSHING_GRAVEL, SoundEvents.ITEM_BRUSH_BRUSHING_GRAVEL_COMPLETE), ModItemGroup.BETTER_ARCHEOLOGY_ITEMGROUP);
 
     //---------FOSSILIFEROUS BLOCKS-----------//
-    public static final Block FOSSILIFEROUS_DIRT = registerBlock("fossiliferous_dirt", new SusBlock(Blocks.DIRT, AbstractBlock.Settings.copy(Blocks.SUSPICIOUS_GRAVEL), SoundEvents.BLOCK_GRAVEL_HIT, SoundEvents.BLOCK_GRAVEL_BREAK), ModItemGroup.BETTER_ARCHEOLOGY_ITEMGROUP);
+    public static final Block FOSSILIFEROUS_DIRT = registerBlock("fossiliferous_dirt", new SusBlock(Blocks.DIRT, AbstractBlock.Settings.copy(Blocks.SUSPICIOUS_GRAVEL), SoundEvents.ITEM_BRUSH_BRUSHING_GRAVEL, SoundEvents.ITEM_BRUSH_BRUSHING_GRAVEL_COMPLETE), ModItemGroup.BETTER_ARCHEOLOGY_ITEMGROUP);
 
     //-------------FOSSILS---------------//
     //Villager
