@@ -17,4 +17,10 @@ public class SusBlockEntity extends BrushableBlockEntity
     {
         return ModBlockEntities.SUSBLOCK;
     }
+
+    @Override
+    public boolean supports(BlockState state)
+    {
+        return ModBlockEntities.SUSBLOCK.supports(state);
+    }
 }
