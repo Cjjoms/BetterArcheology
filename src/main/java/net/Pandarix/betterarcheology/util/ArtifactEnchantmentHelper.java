@@ -39,7 +39,7 @@ public class ArtifactEnchantmentHelper
             }
 
             // If trinkets is installed, check for back-slot
-            if (FabricLoader.getInstance().isModLoaded("trinkets"))
+            if (FabricLoader.getInstance().isModLoaded("trinkets") && FabricLoader.getInstance().isModLoaded("elytraslot"))
             {
                 //failsafe
                 Map<String, SlotGroup> trinketSlots = TrinketsApi.getPlayerSlots(player);
