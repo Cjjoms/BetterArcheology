@@ -29,7 +29,7 @@
   },
   "display": {
     "icon": {
-      "item": "betterarcheology:villager_fossil_head"
+      "id": "betterarcheology:villager_fossil_head"
     },
     "title": {
       "translate": "advancements.fossil_found"

@@ -67,7 +67,7 @@ public class BetterArcheologyConfig
             builder.push("SoaringWinds");
                 soaringWindsEnabled = builder.comment("En-/Disables the effects of the Soaring Winds enchantment.").define("soaringWindsEnabled", true);
 
-                soaringWindsBoost = builder.comment("Set to movement speed multiplier, that should be applied when starting to fly").define("soaringWindsBoost", 0.5d, 0.1d, 3d);
+                soaringWindsBoost = builder.comment("Set to movement speed multiplier, that should be applied when starting to fly").define("soaringWindsBoost", 0.75d, 0.1d, 3d);
             builder.pop();
         builder.pop();
 

@@ -168,8 +168,8 @@
 					"name": "minecraft:splash_potion",
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion:\"minecraft:poison\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:poison"
 						}
 					]
 				},
@@ -178,8 +178,8 @@
 					"name": "minecraft:potion",
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion:\"minecraft:swiftness\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:swiftness"
 						}
 					]
 				},
@@ -188,8 +188,8 @@
 					"name": "minecraft:splash_potion",
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion:\"minecraft:healing\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:healing"
 						}
 					]
 				},
@@ -198,8 +198,8 @@
 					"name": "minecraft:potion",
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion:\"minecraft:regeneration\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:regeneration"
 						}
 					]
 				},
@@ -208,8 +208,8 @@
 					"name": "minecraft:potion",
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion:\"minecraft:slow_falling\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:slow_falling"
 						}
 					]
 				}

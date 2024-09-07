@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "betterarcheology:vase"
+      "id": "betterarcheology:vase"
     },
     "title": {
       "translate": "advancements.vase"

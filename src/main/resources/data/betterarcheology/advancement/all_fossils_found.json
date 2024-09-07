@@ -172,7 +172,7 @@
   },
   "display": {
     "icon": {
-      "item": "betterarcheology:sheep_fossil"
+      "id": "betterarcheology:sheep_fossil"
     },
     "title": {
       "translate": "advancements.all_fossils_found"

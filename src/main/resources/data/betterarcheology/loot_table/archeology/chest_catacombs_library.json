@@ -11,7 +11,7 @@
 			"entries": [
 				{
 					"type": "minecraft:loot_table",
-					"name": "betterarcheology:archeology/loot_catacombs_generic"
+					"value": "betterarcheology:archeology/loot_catacombs_generic"
 				}
 			]
 		},

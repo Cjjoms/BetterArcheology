@@ -41,8 +41,8 @@
 					"name": "minecraft:tipped_arrow",
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion:\"minecraft:poison\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:poison"
 						},
 						{
 							"function": "minecraft:set_count",
@@ -59,8 +59,8 @@
 					"name": "minecraft:tipped_arrow",
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion:\"minecraft:slowness\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:slowness"
 						},
 						{
 							"function": "minecraft:set_count",
@@ -77,8 +77,8 @@
 					"name": "minecraft:tipped_arrow",
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion:\"minecraft:weakness\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:weakness"
 						},
 						{
 							"function": "minecraft:set_count",
@@ -218,8 +218,8 @@
 					"name": "minecraft:splash_potion",
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion:\"minecraft:harming\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:harming"
 						}
 					]
 				},
@@ -228,8 +228,8 @@
 					"name": "minecraft:splash_potion",
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion:\"minecraft:healing\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:healing"
 						}
 					]
 				}

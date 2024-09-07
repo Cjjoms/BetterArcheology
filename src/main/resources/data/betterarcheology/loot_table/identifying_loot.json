@@ -5,8 +5,8 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 1,
           "name": "minecraft:enchanted_book",
+          "weight": 1,
           "functions": [
             {
               "function": "minecraft:set_enchantments",
@@ -16,15 +16,18 @@
             },
             {
               "function": "minecraft:set_lore",
+              "entity": "this",
               "lore": [
                 {
                   "translate": "enchantment.betterarcheology.penetrating_strike.desc",
                   "color": "dark_gray"
                 }
-              ]
+              ],
+              "mode": "append"
             },
             {
               "function": "minecraft:set_name",
+              "entity": "this",
               "name": {
                 "translate": "item.betterarcheology.identified_artifact"
               }
@@ -33,8 +36,8 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 1,
           "name": "minecraft:enchanted_book",
+          "weight": 1,
           "functions": [
             {
               "function": "minecraft:set_enchantments",
@@ -44,15 +47,18 @@
             },
             {
               "function": "minecraft:set_lore",
+              "entity": "this",
               "lore": [
                 {
                   "translate": "enchantment.betterarcheology.soaring_winds.desc",
                   "color": "dark_gray"
                 }
-              ]
+              ],
+              "mode": "append"
             },
             {
               "function": "minecraft:set_name",
+              "entity": "this",
               "name": {
                 "translate": "item.betterarcheology.identified_artifact"
               }
@@ -61,8 +67,8 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 1,
           "name": "minecraft:enchanted_book",
+          "weight": 1,
           "functions": [
             {
               "function": "minecraft:set_enchantments",
@@ -72,15 +78,18 @@
             },
             {
               "function": "minecraft:set_lore",
+              "entity": "this",
               "lore": [
                 {
                   "translate": "enchantment.betterarcheology.tunneling.desc",
                   "color": "dark_gray"
                 }
-              ]
+              ],
+              "mode": "append"
             },
             {
               "function": "minecraft:set_name",
+              "entity": "this",
               "name": {
                 "translate": "item.betterarcheology.identified_artifact"
               }

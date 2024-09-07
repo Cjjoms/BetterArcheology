@@ -9,13 +9,13 @@
           "type": "minecraft:loot_table",
           "weight": 10,
           "quality": -2,
-          "name": "minecraft:gameplay/fishing/junk"
+          "value": "minecraft:gameplay/fishing/junk"
         },
         {
           "type": "minecraft:loot_table",
           "weight": 5,
           "quality": 2,
-          "name": "minecraft:gameplay/fishing/treasure",
+          "value": "minecraft:gameplay/fishing/treasure",
           "conditions": [
             {
               "condition": "minecraft:entity_properties",
@@ -33,13 +33,13 @@
           "type": "minecraft:loot_table",
           "weight": 75,
           "quality": -1,
-          "name": "minecraft:gameplay/fishing/fish"
+          "value": "minecraft:gameplay/fishing/fish"
         },
         {
           "type": "minecraft:loot_table",
           "weight": 10,
           "quality": -2,
-          "name": "betterarcheology:seas_bounty_extension",
+          "value": "betterarcheology:seas_bounty_extension",
           "conditions": [
             {
               "condition": "minecraft:entity_properties",

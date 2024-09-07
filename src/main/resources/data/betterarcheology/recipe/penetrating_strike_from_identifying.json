@@ -6,13 +6,10 @@
   "result": {
     "id": "minecraft:enchanted_book",
     "Count": 1,
-    "tag": {
-      "StoredEnchantments": [
-        {
-          "id": "betterarcheology:penetrating_strike",
-          "lvl": 1
-        }
-      ]
+    "components": {
+      "minecraft:stored_enchantments": {
+        "betterarcheology:penetrating_strike": 1
+      }
     }
   }
 }

@@ -117,8 +117,8 @@
 					"name": "minecraft:tipped_arrow",
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion: \"minecraft:slowness\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:slowness"
 						},
 						{
 							"function": "minecraft:set_count",
@@ -136,8 +136,8 @@
 					"name": "minecraft:tipped_arrow",
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion: \"minecraft:poison\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:poison"
 						},
 						{
 							"function": "minecraft:set_count",
@@ -155,8 +155,8 @@
 					"name": "minecraft:tipped_arrow",
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion: \"minecraft:harming\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:harming"
 						},
 						{
 							"function": "minecraft:set_count",
@@ -174,8 +174,8 @@
 					"name": "minecraft:tipped_arrow",
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion: \"minecraft:weakness\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:weakness"
 						},
 						{
 							"function": "minecraft:set_count",
@@ -473,7 +473,7 @@
 				{
 					"type": "minecraft:loot_table",
 					"weight": 5,
-					"name": "betterarcheology:archeology/sword_loot"
+					"value": "betterarcheology:archeology/sword_loot"
 				},
 				{
 					"type": "minecraft:item",

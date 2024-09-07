@@ -16,7 +16,7 @@
   },
   "display": {
     "icon": {
-      "item": "betterarcheology:unidentified_artifact"
+      "id": "betterarcheology:unidentified_artifact"
     },
     "title": {
       "translate": "advancements.artifact"

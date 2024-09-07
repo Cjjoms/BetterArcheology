@@ -121,8 +121,8 @@
           "name": "minecraft:lingering_potion",
           "functions": [
             {
-              "function": "minecraft:set_nbt",
-              "tag": "{Potion: \"minecraft:weakness\"}"
+              "function": "minecraft:set_potion",
+              "id": "minecraft:weakness"
             }
           ]
         },

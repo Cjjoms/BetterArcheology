@@ -13,8 +13,8 @@
 					"name": "minecraft:tipped_arrow",
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion:\"minecraft:poison\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:poison"
 						}
 					]
 				},
@@ -23,8 +23,8 @@
 					"name": "minecraft:tipped_arrow",
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion:\"minecraft:weakness\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:weakness"
 						}
 					]
 				}
@@ -60,8 +60,8 @@
 					"name": "minecraft:potion",
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion:\"minecraft:swiftness\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:swiftness"
 						}
 					]
 				},
@@ -70,8 +70,8 @@
 					"name": "minecraft:potion",
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion:\"minecraft:healing\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:healing"
 						}
 					]
 				}

@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "betterarcheology:bomb"
+      "id": "betterarcheology:bomb"
     },
     "title": "Kaboom?",
     "description": "Yes Rico, Kaboom",

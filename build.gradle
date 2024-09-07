@@ -68,8 +68,6 @@ dependencies {
 	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
 
 	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
-	modImplementation "com.yungnickyoung.minecraft." +
-			"yungsapi:YungsApi:${yungsapi_mc_version}-Fabric-${yungsapi_version}"
 
 	// Cardinal Components needed in 1.20.4 for trinkets to run in dev env
 	modApi include("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${cca_version}")
@@ -86,13 +84,9 @@ dependencies {
 
 processResources {
 	inputs.property "version", project.version
-	inputs.property "yungsapi_mc_version", project.yungsapi_mc_version
-	inputs.property "yungsapi_version", project.yungsapi_version
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version,
-				"yungsapi_mc_version": project.yungsapi_mc_version,
-				"yungsapi_version": project.yungsapi_version
+		expand "version": project.version
 	}
 }
 

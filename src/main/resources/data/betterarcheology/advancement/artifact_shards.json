@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "betterarcheology:artifact_shards"
+      "id": "betterarcheology:artifact_shards"
     },
     "title": {
       "translate": "advancements.shards"

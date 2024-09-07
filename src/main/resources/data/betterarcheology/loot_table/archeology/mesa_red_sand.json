@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "minecraft:archaeology/trail_ruins_rare",
+          "value": "minecraft:archaeology/trail_ruins_rare",
           "weight": 6
         },
         {

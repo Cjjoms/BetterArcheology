@@ -16,6 +16,7 @@ import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
@@ -77,7 +78,7 @@ public class IdentifyingRecipe implements Recipe<CraftingRecipeInput>
         //apply custom naming to the book
         modifiedResultBook.set(DataComponentTypes.ITEM_NAME, Text.translatable("item.betterarcheology.identified_artifact"));
         modifiedResultBook.set(DataComponentTypes.LORE, new LoreComponent(
-                List.of(Text.literal(String.format("{\"text\":\"Chance: 1/%d\",\"color\":\"aqua\"}", amountOfEnchantsPossible)))
+                List.of(Text.literal(String.format("Chance: 1/%d", amountOfEnchantsPossible)).withColor(Formatting.AQUA.getColorValue()))
         ));
         return modifiedResultBook;
     }
