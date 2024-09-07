@@ -9,6 +9,7 @@ import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Position;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
@@ -22,6 +23,11 @@ public class BombEntity extends ThrownItemEntity
     public BombEntity(World world, LivingEntity owner)
     {
         super(ModEntityTypes.BOMB_ENTITY, owner, world);
+    }
+
+    public BombEntity(World world, Position pos)
+    {
+        super(ModEntityTypes.BOMB_ENTITY, pos.getX(), pos.getY(), pos.getZ(), world);
     }
 
     public BombEntity(World world, double x, double y, double z)

@@ -41,6 +41,8 @@ public class JeiPlugin implements IModPlugin
         {
             RecipeManager recipeManager = MinecraftClient.getInstance().world.getRecipeManager();
 
+            BetterArcheology.LOGGER.info("JEI recipes: " + recipeManager.listAllOfType(IdentifyingRecipe.Type.INSTANCE));
+
             List<IdentifyingRecipe> identifyingRecipes = new ArrayList<>(recipeManager.listAllOfType(IdentifyingRecipe.Type.INSTANCE).stream().map(RecipeEntry::value).toList());
 
             registration.addRecipes(IdentifyingCategory.IDENTIFYING_RECIPE_TYPE, identifyingRecipes);

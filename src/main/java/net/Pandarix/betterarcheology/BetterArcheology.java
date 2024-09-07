@@ -7,7 +7,6 @@ import net.Pandarix.betterarcheology.enchantment.ModEnchantments;
 import net.Pandarix.betterarcheology.entity.ModEntityTypes;
 import net.Pandarix.betterarcheology.item.ModItemGroup;
 import net.Pandarix.betterarcheology.item.ModItems;
-import net.Pandarix.betterarcheology.networking.ModMessages;
 import net.Pandarix.betterarcheology.screen.ModScreenHandlers;
 import net.Pandarix.betterarcheology.structures.ModStructureFeatures;
 import net.Pandarix.betterarcheology.util.ModDispenserBehaviour;
@@ -35,7 +34,6 @@ public class BetterArcheology implements ModInitializer
 
         BetterArcheologyConfig.init();
 
-        ModItemGroup.registerTab();        //creates CreativeModeTab
         ModItems.registerModItems();    //registers Items and adds them to the Tab
         ModBlocks.registerModBlocks();    //registers Blocks	and BlockItems
         ModEntityTypes.registerModEntityTypes();
@@ -47,8 +45,9 @@ public class BetterArcheology implements ModInitializer
         ModVillagers.registerVillagers(); //registers all Villagers from BetterArcheology
         ModVillagers.registerTrades(); //registers all Villager Trades
 
-        ModMessages.registerC2SPackets();
         ModEnchantments.registerModEnchantments();
+
+        ModItemGroup.registerTab();        //creates CreativeModeTab
 
         ModDispenserBehaviour.registerDispenserBehaviour();
         ModStructureFeatures.registerStructureFeatures();

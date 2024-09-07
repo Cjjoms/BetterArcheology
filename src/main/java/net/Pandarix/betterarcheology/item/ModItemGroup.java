@@ -25,9 +25,15 @@ public class ModItemGroup
         {
             RegistryWrapper<Enchantment> enchantmentLLookup = context.lookup().getWrapperOrThrow(RegistryKeys.ENCHANTMENT);
 
-            ModEnchantments.registerEnchantedBookWith(enchantmentLLookup.getOrThrow(ModEnchantments.SOARING_WINDS_KEY));
-            ModEnchantments.registerEnchantedBookWith(enchantmentLLookup.getOrThrow(ModEnchantments.TUNNELING_KEY));
-            ModEnchantments.registerEnchantedBookWith(enchantmentLLookup.getOrThrow(ModEnchantments.PENETRATING_STRIKE_KEY));
+            try
+            {
+                ModEnchantments.registerEnchantedBookWith(enchantmentLLookup.getOrThrow(ModEnchantments.SOARING_WINDS_KEY));
+                ModEnchantments.registerEnchantedBookWith(enchantmentLLookup.getOrThrow(ModEnchantments.TUNNELING_KEY));
+                ModEnchantments.registerEnchantedBookWith(enchantmentLLookup.getOrThrow(ModEnchantments.PENETRATING_STRIKE_KEY));
+            } catch (Exception e)
+            {
+                BetterArcheology.LOGGER.error("Failed to put Enchantment Books into CreativeModeTab.", e);
+            }
         }).build());
     }
 }

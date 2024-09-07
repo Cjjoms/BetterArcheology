@@ -8,6 +8,7 @@
     "AddSkeletonGoalsMixin",
     "ElytraStartupMixin",
     "FasterBrushingMixin",
+    "PenetratingStrikeMixin",
     "TorrentTotemItemTickMixin",
     "TunnelingEnchantmentMixin"
   ],

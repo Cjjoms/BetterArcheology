@@ -6,16 +6,15 @@ import net.Pandarix.betterarcheology.block.entity.client.ArcheologyTableBlockEnt
 import net.Pandarix.betterarcheology.block.entity.client.SusBlockEntityRenderer;
 import net.Pandarix.betterarcheology.block.entity.client.VillagerFossilBlockEntityRenderer;
 import net.Pandarix.betterarcheology.entity.ModEntityTypes;
-import net.Pandarix.betterarcheology.networking.ModMessages;
 import net.Pandarix.betterarcheology.screen.FossilInventoryScreen;
 import net.Pandarix.betterarcheology.screen.IdentifyingScreen;
 import net.Pandarix.betterarcheology.screen.ModScreenHandlers;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 
 public class BetterArcheologyClient implements ClientModInitializer
@@ -23,14 +22,12 @@ public class BetterArcheologyClient implements ClientModInitializer
     @Override
     public void onInitializeClient()
     {
-        ModMessages.registerS2CPackets();
-
         HandledScreens.register(ModScreenHandlers.IDENTIFYING_SCREEN_HANDLER, IdentifyingScreen::new);
         HandledScreens.register(ModScreenHandlers.FOSSIL_SCREEN_HANDLER, FossilInventoryScreen::new);
 
-        BlockEntityRendererRegistry.register(ModBlockEntities.ARCHEOLOGY_TABLE, ArcheologyTableBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(ModBlockEntities.VILLAGER_FOSSIL, VillagerFossilBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(ModBlockEntities.SUSBLOCK, SusBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(ModBlockEntities.ARCHEOLOGY_TABLE, ArcheologyTableBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(ModBlockEntities.VILLAGER_FOSSIL, VillagerFossilBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(ModBlockEntities.SUSBLOCK, SusBlockEntityRenderer::new);
 
         EntityRendererRegistry.register(ModEntityTypes.BOMB_ENTITY, FlyingItemEntityRenderer::new);
 

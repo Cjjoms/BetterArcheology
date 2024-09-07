@@ -1,11 +1,7 @@
 package net.Pandarix.betterarcheology.block.entity;
 
 import net.Pandarix.betterarcheology.block.custom.VillagerFossilBlock;
-import net.Pandarix.betterarcheology.networking.ModMessages;
 import net.Pandarix.betterarcheology.screen.FossilInventoryScreenHandler;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -14,15 +10,12 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -42,12 +35,19 @@ public class VillagerFossilBlockEntity extends BlockEntity implements NamedScree
     {
         super.writeNbt(nbt, registryLookup);
         Inventories.writeNbt(nbt, inventory, registryLookup);
+        int luminance = Block.getBlockFromItem(this.getInventoryContents().getItem()).getDefaultState().getLuminance();
+        nbt.putInt("luminance", luminance);
     }
 
     @Override
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
     {
         Inventories.readNbt(nbt, inventory, registryLookup);
+        int luminance = nbt.getInt("luminance");
+        if (this.world != null)
+        {
+            this.world.setBlockState(this.getPos(), world.getBlockState(this.getPos()).with(VillagerFossilBlock.INVENTORY_LUMINANCE, luminance));
+        }
         super.readNbt(nbt, registryLookup);
     }
 
@@ -92,7 +92,7 @@ public class VillagerFossilBlockEntity extends BlockEntity implements NamedScree
         }
     }
 
-    @Override
+/*    @Override
     public void markDirty()
     {
         assert world != null;
@@ -111,13 +111,10 @@ public class VillagerFossilBlockEntity extends BlockEntity implements NamedScree
             {
                 ServerPlayNetworking.send(player, ModMessages.ITEM_SYNC, data);
             }
-
-            int luminance = Block.getBlockFromItem(this.getInventoryContents().getItem()).getDefaultState().getLuminance();
-            world.setBlockState(this.getPos(), getCachedState().with(VillagerFossilBlock.INVENTORY_LUMINANCE, luminance));
         }
 
         super.markDirty();
-    }
+    }*/
 
     @Nullable
     @Override
@@ -127,8 +124,8 @@ public class VillagerFossilBlockEntity extends BlockEntity implements NamedScree
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt()
+    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup)
     {
-        return createNbt();
+        return createNbt(registryLookup);
     }
 }

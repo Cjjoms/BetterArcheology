@@ -22,9 +22,9 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider
     protected void configure(RegistryWrapper.WrapperLookup arg)
     {
         getOrCreateTagBuilder(ModTags.Items.TUNNELING_ITEMS)
-                .addTag(ItemTags.PICKAXES)
-                .addTag(ItemTags.SHOVELS)
-                .addTag(ItemTags.HOES);
+                .addOptionalTag(ItemTags.PICKAXES)
+                .addOptionalTag(ItemTags.SHOVELS)
+                .addOptionalTag(ItemTags.HOES);
 
         getOrCreateTagBuilder(ModTags.Items.ELYTRAS)
                 .add(Items.ELYTRA);

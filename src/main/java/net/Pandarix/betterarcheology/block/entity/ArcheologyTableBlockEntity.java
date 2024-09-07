@@ -3,11 +3,7 @@ package net.Pandarix.betterarcheology.block.entity;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.Pandarix.betterarcheology.BetterArcheology;
 import net.Pandarix.betterarcheology.item.ModItems;
-import net.Pandarix.betterarcheology.networking.ModMessages;
 import net.Pandarix.betterarcheology.screen.IdentifyingScreenHandler;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,7 +18,6 @@ import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
@@ -32,7 +27,6 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -311,15 +305,17 @@ public class ArcheologyTableBlockEntity extends BlockEntity implements NamedScre
         }
     }
 
-    @Override
+/*    @Override
     public void markDirty()
     {
         if (world != null && !world.isClient())
         {
             PacketByteBuf data = PacketByteBufs.create();
+
             data.writeInt(inventory.size());
             for (ItemStack itemStack : inventory)
             {
+                ItemStack.PACKET_CODEC.encode(data, itemStack);
                 data.writeItemStack(itemStack);
             }
             data.writeBlockPos(getPos());
@@ -331,7 +327,7 @@ public class ArcheologyTableBlockEntity extends BlockEntity implements NamedScre
         }
 
         super.markDirty();
-    }
+    }*/
 
     @Nullable
     @Override

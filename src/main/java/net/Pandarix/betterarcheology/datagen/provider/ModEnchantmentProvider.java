@@ -34,7 +34,7 @@ public class ModEnchantmentProvider extends FabricDynamicRegistryProvider
         register(entries, ModEnchantments.PENETRATING_STRIKE_KEY, Enchantment.builder(
                         Enchantment.definition(
                                 itemLookup.getOrThrow(ItemTags.WEAPON_ENCHANTABLE),
-                                0, // probability of showing up in the enchantment table
+                                2, // probability of showing up in the enchantment table - will be ignored due to it being treasure
                                 1, // max level
                                 Enchantment.leveledCost(1, 10), // cost per level (base)
                                 Enchantment.leveledCost(1, 15), // cost per level (max)
@@ -49,7 +49,7 @@ public class ModEnchantmentProvider extends FabricDynamicRegistryProvider
         register(entries, ModEnchantments.TUNNELING_KEY, Enchantment.builder(
                 Enchantment.definition(
                         itemLookup.getOrThrow(ModTags.Items.TUNNELING_ITEMS),
-                        0, // probability of showing up in the enchantment table
+                        2, // probability of showing up in the enchantment table - will be ignored due to it being treasure
                         1, // max level
                         Enchantment.leveledCost(1, 10), // cost per level (base)
                         Enchantment.leveledCost(1, 15), // cost per level (max)
@@ -60,12 +60,12 @@ public class ModEnchantmentProvider extends FabricDynamicRegistryProvider
         register(entries, ModEnchantments.SOARING_WINDS_KEY, Enchantment.builder(
                 Enchantment.definition(
                         itemLookup.getOrThrow(ModTags.Items.ELYTRAS),
-                        0, // probability of showing up in the enchantment table
+                        2, // probability of showing up in the enchantment table - will be ignored due to it being treasure
                         1, // max level
                         Enchantment.leveledCost(1, 10), // cost per level (base)
                         Enchantment.leveledCost(1, 15), // cost per level (max)
                         7, // anvil applying cost
-                        AttributeModifierSlot.ARMOR
+                        AttributeModifierSlot.ANY
                 )));
     }
 
