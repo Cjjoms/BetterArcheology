@@ -1,16 +1,21 @@
 package net.Pandarix.betterarcheology.screen;
 
+import net.Pandarix.betterarcheology.BetterArcheology;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.s2c.play.InventoryS2CPacket;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.collection.DefaultedList;
 
 public class FossilInventoryScreenHandler extends ScreenHandler
 {
     private final Inventory inventory;
+    private final PlayerInventory playerInventory;
 
     public FossilInventoryScreenHandler(int syncId, PlayerInventory inventory)
     {
@@ -23,11 +28,49 @@ public class FossilInventoryScreenHandler extends ScreenHandler
         checkSize(inventory, 1);
         inventory.onOpen(playerInventory.player);
         this.inventory = inventory;
+        this.playerInventory = playerInventory;
 
-        this.addSlot(new Slot(inventory, 0, 80, 22));
+        this.addSlot(new Slot(inventory, 0, 80, 22)
+        {
+            @Override
+            public void markDirty()
+            {
+                super.markDirty();
+                FossilInventoryScreenHandler.this.onContentChanged(this.inventory);
+            }
+        });
 
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
+    }
+
+    @Override
+    public void onClosed(PlayerEntity player)
+    {
+        super.onClosed(player);
+        this.inventory.onClose(player);
+    }
+
+    @Override
+    public void onContentChanged(Inventory inventory)
+    {
+        try
+        {
+            if (this.playerInventory.player instanceof ServerPlayerEntity serverPlayerEntity)
+            {
+                DefaultedList<ItemStack> contents = DefaultedList.ofSize(this.inventory.size());
+                for (int slot = 0; slot < this.inventory.size(); slot++)
+                {
+                    contents.add(this.inventory.getStack(slot));
+                }
+                serverPlayerEntity.networkHandler.sendPacket(new InventoryS2CPacket(this.syncId, this.nextRevision(), contents, this.getCursorStack()));
+                this.inventory.markDirty();
+            }
+        } catch (Exception e)
+        {
+            BetterArcheology.LOGGER.warn("Could not send Inventory update of Fossil Screen!", e);
+        }
+        super.onContentChanged(inventory);
     }
 
     @Override

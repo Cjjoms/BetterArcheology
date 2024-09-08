@@ -1,5 +1,6 @@
 package net.Pandarix.betterarcheology.screen;
 
+import net.Pandarix.betterarcheology.BetterArcheology;
 import net.Pandarix.betterarcheology.block.entity.ArcheologyTableBlockEntity;
 import net.Pandarix.betterarcheology.item.ModItems;
 import net.minecraft.entity.player.PlayerEntity;
@@ -8,15 +9,19 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.BrushItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.s2c.play.InventoryS2CPacket;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.collection.DefaultedList;
 
 public class IdentifyingScreenHandler extends ScreenHandler
 {
     private final Inventory inventory;
     private final PropertyDelegate propertyDelegate;
+    private final PlayerInventory playerInventory;
 
     public IdentifyingScreenHandler(int syncId, PlayerInventory inventory)
     {
@@ -29,7 +34,9 @@ public class IdentifyingScreenHandler extends ScreenHandler
     {
         super(ModScreenHandlers.IDENTIFYING_SCREEN_HANDLER, syncId);    //creates a new Instance of Screenhandler
         checkSize(inventory, ArcheologyTableBlockEntity.INV_SIZE);
+
         this.inventory = inventory; //sets the Screens Inventory to the given Inventory
+        this.playerInventory = playerInventory;
 
         //opens Inventory
         inventory.onOpen(playerInventory.player);
@@ -38,7 +45,6 @@ public class IdentifyingScreenHandler extends ScreenHandler
         this.propertyDelegate = delegate;
 
         //SLOTS
-        //TODO: Redo coordinates
         this.addSlot(new Slot(inventory, 0, 80, 20));
         this.addSlot(new Slot(inventory, 1, 26, 48));
         this.addSlot(new IdentifyingOutputSlot(inventory, 2, 134, 48));
@@ -58,7 +64,7 @@ public class IdentifyingScreenHandler extends ScreenHandler
     {
         int progress = this.propertyDelegate.get(0);
         int maxProgress = this.propertyDelegate.get(1);                         // Maximum Progress, after reaching: progress done
-        int progressArrowSize = 74;                                             // This is the width in pixels of your arrow //TODO: Edit correct size
+        int progressArrowSize = 74;                                             // This is the width in pixels of your arrow
 
         return maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0;
     }
@@ -117,6 +123,28 @@ public class IdentifyingScreenHandler extends ScreenHandler
         }
 
         return itemStack;
+    }
+
+    @Override
+    public void onContentChanged(Inventory inventory)
+    {
+        try
+        {
+            if (this.playerInventory.player instanceof ServerPlayerEntity serverPlayerEntity)
+            {
+                DefaultedList<ItemStack> contents = DefaultedList.ofSize(this.inventory.size());
+                for (int slot = 0; slot < this.inventory.size(); slot++)
+                {
+                    contents.add(this.inventory.getStack(slot));
+                }
+                serverPlayerEntity.networkHandler.sendPacket(new InventoryS2CPacket(this.syncId, this.nextRevision(), contents, this.getCursorStack()));
+                this.inventory.markDirty();
+            }
+        } catch (Exception e)
+        {
+            BetterArcheology.LOGGER.warn("Could not send Inventory update of Identifying Screen!", e);
+        }
+        super.onContentChanged(inventory);
     }
 
     @Override

@@ -35,20 +35,15 @@ public class VillagerFossilBlockEntity extends BlockEntity implements NamedScree
     {
         super.writeNbt(nbt, registryLookup);
         Inventories.writeNbt(nbt, inventory, registryLookup);
-        int luminance = Block.getBlockFromItem(this.getInventoryContents().getItem()).getDefaultState().getLuminance();
-        nbt.putInt("luminance", luminance);
     }
 
     @Override
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
     {
-        Inventories.readNbt(nbt, inventory, registryLookup);
-        int luminance = nbt.getInt("luminance");
-        if (this.world != null)
-        {
-            this.world.setBlockState(this.getPos(), world.getBlockState(this.getPos()).with(VillagerFossilBlock.INVENTORY_LUMINANCE, luminance));
-        }
         super.readNbt(nbt, registryLookup);
+        inventory.clear();
+        Inventories.readNbt(nbt, inventory, registryLookup);
+        markDirty();
     }
 
     @Override
@@ -63,15 +58,6 @@ public class VillagerFossilBlockEntity extends BlockEntity implements NamedScree
         return Text.translatable(getCachedState().getBlock().getTranslationKey());
     }
 
-    //update luminance of block based on the luminance of the item given when it would be in its placed state
-    @Override
-    public void onClose(PlayerEntity player)
-    {
-        ImplementedInventory.super.onClose(player);
-        int luminance = Block.getBlockFromItem(this.getInventoryContents().getItem()).getDefaultState().getLuminance();
-        player.getWorld().setBlockState(this.getPos(), world.getBlockState(this.getPos()).with(VillagerFossilBlock.INVENTORY_LUMINANCE, luminance));
-    }
-
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player)
@@ -84,37 +70,20 @@ public class VillagerFossilBlockEntity extends BlockEntity implements NamedScree
         return this.getStack(0);
     }
 
-    public void setInventory(DefaultedList<ItemStack> inventory)
-    {
-        for (int i = 0; i < inventory.size(); i++)
-        {
-            this.inventory.set(i, inventory.get(i));
-        }
-    }
-
-/*    @Override
+    @Override
     public void markDirty()
     {
-        assert world != null;
-        world.updateListeners(pos, getCachedState(), getCachedState(), 3);
-        if (!world.isClient())
+        if (this.world != null)
         {
-            PacketByteBuf data = PacketByteBufs.create();
-            data.writeInt(inventory.size());
-            for (ItemStack itemStack : inventory)
+            world.updateListeners(pos, getCachedState(), getCachedState(), 3);
+            if (!world.isClient())
             {
-                data.writeItemStack(itemStack);
-            }
-            data.writeBlockPos(getPos());
-
-            for (ServerPlayerEntity player : PlayerLookup.tracking((ServerWorld) world, getPos()))
-            {
-                ServerPlayNetworking.send(player, ModMessages.ITEM_SYNC, data);
+                int luminance = Block.getBlockFromItem(this.getInventoryContents().getItem()).getDefaultState().getLuminance();
+                world.setBlockState(this.getPos(), getCachedState().with(VillagerFossilBlock.INVENTORY_LUMINANCE, luminance));
             }
         }
-
         super.markDirty();
-    }*/
+    }
 
     @Nullable
     @Override
@@ -126,6 +95,8 @@ public class VillagerFossilBlockEntity extends BlockEntity implements NamedScree
     @Override
     public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup)
     {
-        return createNbt(registryLookup);
+        NbtCompound nbt = super.toInitialChunkDataNbt(registryLookup);
+        writeNbt(nbt, registryLookup);
+        return nbt;
     }
 }

@@ -132,10 +132,12 @@ public class ArcheologyTableBlockEntity extends BlockEntity implements NamedScre
 
     @Override
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup)
-    {                          //reads saved inventory upon opening the world
+    {
+        inventory.clear();
         Inventories.readNbt(nbt, inventory, registryLookup);
         super.readNbt(nbt, registryLookup);
         progress = nbt.getInt("archeology_table");
+        markDirty();
     }
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState, ArcheologyTableBlockEntity entity)
@@ -305,29 +307,15 @@ public class ArcheologyTableBlockEntity extends BlockEntity implements NamedScre
         }
     }
 
-/*    @Override
+    @Override
     public void markDirty()
     {
-        if (world != null && !world.isClient())
+        if (this.world != null)
         {
-            PacketByteBuf data = PacketByteBufs.create();
-
-            data.writeInt(inventory.size());
-            for (ItemStack itemStack : inventory)
-            {
-                ItemStack.PACKET_CODEC.encode(data, itemStack);
-                data.writeItemStack(itemStack);
-            }
-            data.writeBlockPos(getPos());
-
-            for (ServerPlayerEntity player : PlayerLookup.tracking((ServerWorld) world, getPos()))
-            {
-                ServerPlayNetworking.send(player, ModMessages.ITEM_SYNC, data);
-            }
+            world.updateListeners(pos, getCachedState(), getCachedState(), 3);
         }
-
         super.markDirty();
-    }*/
+    }
 
     @Nullable
     @Override
@@ -339,6 +327,8 @@ public class ArcheologyTableBlockEntity extends BlockEntity implements NamedScre
     @Override
     public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup)
     {
-        return createNbt(registryLookup);
+        NbtCompound nbt = super.toInitialChunkDataNbt(registryLookup);
+        writeNbt(nbt, registryLookup);
+        return nbt;
     }
 }
