@@ -32,7 +32,7 @@ public class SoulTotemItem extends Item {
 
     @Override
     public int getMaxUseTime(ItemStack stack) {
-        return 9;
+        return 6;
     }
 
     @Override
@@ -71,7 +71,7 @@ public class SoulTotemItem extends Item {
                         for (float f = 0; f <= 1; f += 0.05) {
                             world.addParticle(ParticleTypes.SCULK_SOUL,
                                     lerp(playerPos.x, targetPos.x, f),
-                                    lerp(playerPos.y, targetPos.y, f) + 1,
+                                    lerp(playerPos.y, targetPos.y, f) + 3,
                                     lerp(playerPos.z, targetPos.z, f),
                                     toPlayerPos.x * f / 15, toPlayerPos.y * f / 15, toPlayerPos.z * f / 15);
                         }
