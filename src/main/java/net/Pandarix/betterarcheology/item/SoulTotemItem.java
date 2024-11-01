@@ -53,7 +53,7 @@ public class SoulTotemItem extends Item {
             return stack;
         }
 
-        HitResult hitresult = ProjectileUtil.getCollision(player, Predicate.not(Entity::isSpectator), Math.sqrt(ServerPlayNetworkHandler.MAX_BREAK_SQUARED_DISTANCE) - 1.0);
+        HitResult hitresult = ProjectileUtil.getCollision(player, Predicate.not(Entity::isSpectator), Math.sqrt(ServerPlayNetworkHandler.MAX_BREAK_SQUARED_DISTANCE) - 3.0);
 
         //if an entity is being targeted
         if (hitresult instanceof EntityHitResult entityHitResult) {
@@ -71,7 +71,7 @@ public class SoulTotemItem extends Item {
                         for (float f = 0; f <= 1; f += 0.05) {
                             world.addParticle(ParticleTypes.SCULK_SOUL,
                                     lerp(playerPos.x, targetPos.x, f),
-                                    lerp(playerPos.y, targetPos.y, f) + 3,
+                                    lerp(playerPos.y, targetPos.y, f) + 1,
                                     lerp(playerPos.z, targetPos.z, f),
                                     toPlayerPos.x * f / 15, toPlayerPos.y * f / 15, toPlayerPos.z * f / 15);
                         }
