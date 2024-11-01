@@ -32,7 +32,7 @@ public class SoulTotemItem extends Item {
 
     @Override
     public int getMaxUseTime(ItemStack stack) {
-        return 6;
+        return 9;
     }
 
     @Override
@@ -80,10 +80,10 @@ public class SoulTotemItem extends Item {
                         world.playSoundFromEntity(null, player, SoundEvents.ENTITY_MULE_EAT, SoundCategory.PLAYERS, 0.5f, 1f);
                         world.playSoundFromEntity(null, player, SoundEvents.ENTITY_WITHER_SHOOT, SoundCategory.PLAYERS, 0.1f, 0.25f);
                         //damage target and heal user
-                        entity.damage(entity.getDamageSources().playerAttack(player), 4);
-                        player.heal(4);
+                        entity.damage(entity.getDamageSources().playerAttack(player), 5);
+                        player.heal(5);
                         //set cooldown and damage stack
-                        player.getItemCooldownManager().set(this, 180);
+                        player.getItemCooldownManager().set(this, 200);
                         stack.damage(1, user, (p) -> {
                             p.sendToolBreakStatus(player.getActiveHand());
                         });
