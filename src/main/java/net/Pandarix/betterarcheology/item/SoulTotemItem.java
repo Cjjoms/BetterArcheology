@@ -53,7 +53,7 @@ public class SoulTotemItem extends Item {
             return stack;
         }
 
-        HitResult hitresult = ProjectileUtil.getCollision(player, Predicate.not(Entity::isSpectator), Math.sqrt(ServerPlayNetworkHandler.MAX_BREAK_SQUARED_DISTANCE) - 3.0);
+        HitResult hitresult = ProjectileUtil.getCollision(player, Predicate.not(Entity::isSpectator), Math.sqrt(ServerPlayNetworkHandler.MAX_BREAK_SQUARED_DISTANCE) - 6.0);
 
         //if an entity is being targeted
         if (hitresult instanceof EntityHitResult entityHitResult) {
