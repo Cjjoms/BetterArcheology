@@ -1,0 +1,35 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#BF",
+        "GSG",
+        "ZBV"
+    ],
+    "key": {
+        "#": {
+            "item": "farmersdelight:fried_rice"
+        },
+        "B": {
+            "item": "minecraft:bone_block"
+        },
+        "F": {
+            "item": "farmersdelight:glow_berry_custard"
+        },
+        "G": {
+            "item": "minecraft:gold_block"
+        },
+        "S": {
+            "item": "spawn:sunflower"
+        },
+        "Z": {
+            "item": "farmersdelight:vegetable_noodles"
+        },
+        "V": {
+            "item": "farmersdelight:stuffed_pumpkin_block"
+        }
+    },
+    "result": {
+        "item": "betterarcheology:growth_totem",
+        "count": 1
+    }
+}

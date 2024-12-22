@@ -1,0 +1,35 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#GX",
+        "ELE",
+        "SGI"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:glow_berries"
+        },
+        "G": {
+            "item": "minecraft:gold_block"
+        },
+        "X": {
+            "item": "minecraft:glow_ink_sac"
+        },
+        "E": {
+            "item": "minecraft:emerald_block"
+        },
+        "L": {
+            "item": "minecraft:lantern"
+        },
+        "S": {
+            "item": "species:deepfish_bucket"
+        },
+        "I": {
+            "item": "gipples_galore:gipple_bucket"
+        }
+    },
+    "result": {
+        "item": "betterarcheology:radiance_totem",
+        "count": 1
+    }
+}

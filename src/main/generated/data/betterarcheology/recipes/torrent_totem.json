@@ -1,0 +1,35 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#gS",
+        "GAG",
+        "TgD"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:nautilus_shell"
+        },
+        "g": {
+            "item": "minecraft:gold_ingot"
+        },
+        "S": {
+            "item": "minecraft:scute"
+        },
+        "G": {
+            "item": "minecraft:gold_block"
+        },
+        "A": {
+            "item": "additionaladditions:trident_shard"
+        },
+        "T": {
+            "item": "spawn:angler_fish_bucket"
+        },
+        "D": {
+            "item": "spawn:tuna_chunk"
+        }
+    },
+    "result": {
+        "item": "betterarcheology:torrent_totem",
+        "count": 1
+    }
+}
